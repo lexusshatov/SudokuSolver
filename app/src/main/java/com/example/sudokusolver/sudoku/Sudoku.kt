@@ -41,31 +41,38 @@ data class Sudoku(
     val gridSquares: List<List<Int?>>
         get() {
             val result: MutableList<List<Int?>> = mutableListOf()
-            repeat(9) { squareIndex ->
-                val square: MutableList<Int?> = mutableListOf()
-                val startIndex = (squareIndex / 3 * 27) + squareIndex % 3 * 3
-                repeat(3) { rowIndex ->
-                    repeat(3) { columnIndex ->
-                        square += grid[(startIndex + rowIndex * 9) + columnIndex]
-                    }
+            repeat(3) { rowIndex ->
+                repeat(3) { columnIndex ->
+                    val startIndex = rowIndex * 27 + columnIndex * 3
+                    result += getSquareByIndex(startIndex)
                 }
-                result += square
             }
             return result
         }
 
-    private fun getRowByIndex(index: Int): List<Int?> {
+    fun getRowByIndex(index: Int): List<Int?> {
         val startIndex = index / 9 * 9
         return grid.slice(startIndex until startIndex + 9)
     }
 
-    private fun getColumnByIndex(index: Int): List<Int?> {
+    fun getColumnByIndex(index: Int): List<Int?> {
         val startIndex = index % 9
         val result: MutableList<Int?> = mutableListOf()
         repeat(9) { listIndex ->
             result.add(grid[startIndex + listIndex * 9])
         }
         return result
+    }
+
+    fun getSquareByIndex(index: Int): List<Int?> {
+        val square: MutableList<Int?> = mutableListOf()
+        val startIndex = index / 27 * 27 + index % 9 / 3 * 3
+        repeat(3) { rowIndex ->
+            repeat(3) { columnIndex ->
+                square += grid[(startIndex + rowIndex * 9) + columnIndex]
+            }
+        }
+        return square
     }
 
     fun isInSameGroup(first: Int, second: Int): Boolean {

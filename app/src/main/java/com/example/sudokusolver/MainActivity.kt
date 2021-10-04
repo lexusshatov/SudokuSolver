@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.sudokusolver.sudoku.Sudoku
+import com.example.sudokusolver.sudoku.SudokuCalculator
 import com.example.sudokusolver.sudoku.SudokuGenerator
 import com.example.sudokusolver.ui.theme.SudokuSolverTheme
 
@@ -49,6 +50,12 @@ class MainActivity : ComponentActivity() {
                                 sudoku = SudokuGenerator.generateSudoku(difficult)
                             }) {
                                 Text(text = "Generate")
+                            }
+                            Spacer(modifier = Modifier.height(10.dp))
+                            Button(onClick = {
+                                sudoku = SudokuCalculator(sudoku).calculate()
+                            }) {
+                                Text(text = "Calculate")
                             }
                         }
                     }
@@ -86,6 +93,7 @@ class MainActivity : ComponentActivity() {
         val range = min..max
 
         Slider(
+            modifier = Modifier.padding(horizontal = 5.dp),
             value = value,
             steps = 1,
             onValueChange = { difficult ->
