@@ -18,9 +18,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.example.sudokusolver.sudoku.Difficult
 import com.example.sudokusolver.sudoku.Sudoku
-import com.example.sudokusolver.sudoku.SudokuCalculator
 import com.example.sudokusolver.sudoku.SudokuGenerator
+import com.example.sudokusolver.sudoku.solution.SolveChain
 import com.example.sudokusolver.ui.theme.SudokuSolverTheme
 
 @ExperimentalFoundationApi
@@ -29,7 +30,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            var difficult by remember { mutableStateOf(SudokuGenerator.Difficult.EASY) }
+            var difficult by remember { mutableStateOf(Difficult.EASY) }
             var sudoku by mutableStateOf(SudokuGenerator.generateSudoku(difficult))
 
             SudokuSolverTheme {
@@ -53,7 +54,7 @@ class MainActivity : ComponentActivity() {
                             }
                             Spacer(modifier = Modifier.height(10.dp))
                             Button(onClick = {
-                                sudoku = SudokuCalculator(sudoku).calculate()
+                                sudoku = SolveChain.Base().solve(sudoku)
                             }) {
                                 Text(text = "Calculate")
                             }
@@ -86,9 +87,9 @@ class MainActivity : ComponentActivity() {
     }
 
     @Composable
-    private fun DifficultSlider(onValueChange: (SudokuGenerator.Difficult) -> Unit) {
-        val min = SudokuGenerator.Difficult.values().minOf { it.ordinal }.toFloat()
-        val max = SudokuGenerator.Difficult.values().maxOf { it.ordinal }.toFloat()
+    private fun DifficultSlider(onValueChange: (Difficult) -> Unit) {
+        val min = Difficult.values().minOf { it.ordinal }.toFloat()
+        val max = Difficult.values().maxOf { it.ordinal }.toFloat()
         var value by remember { mutableStateOf(min) }
         val range = min..max
 
@@ -98,7 +99,7 @@ class MainActivity : ComponentActivity() {
             steps = 1,
             onValueChange = { difficult ->
                 value = difficult
-                SudokuGenerator.Difficult.values().firstOrNull { it.ordinal == difficult.toInt() }
+                Difficult.values().firstOrNull { it.ordinal == difficult.toInt() }
                     ?.let { onValueChange(it) }
             },
             valueRange = range

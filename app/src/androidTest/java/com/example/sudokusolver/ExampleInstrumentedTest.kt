@@ -33,7 +33,7 @@ class ExampleInstrumentedTest {
 
         kotlin.runCatching {
             val wrongGrid = sudoku.grid.toMutableList().apply { this[lastIndex] = 0 }
-            Sudoku(wrongGrid.toTypedArray())
+            Sudoku(wrongGrid)
         }.getOrElse {
             println(it.localizedMessage)
         }

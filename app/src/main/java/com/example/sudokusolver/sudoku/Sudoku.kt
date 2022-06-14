@@ -1,7 +1,7 @@
 package com.example.sudokusolver.sudoku
 
 data class Sudoku(
-    val grid: Array<Int?> = arrayOf(
+    val grid: List<Int?> = listOf(
         9, 5, 1, 7, 3, 2, 4, 8, 6,
         8, 4, 7, 6, 9, 1, 3, 5, 2,
         2, 6, 3, 5, 8, 4, 9, 7, 1,
@@ -38,7 +38,7 @@ data class Sudoku(
             return result
         }
 
-    val gridSquares: List<List<Int?>>
+    private val gridSquares: List<List<Int?>>
         get() {
             val result: MutableList<List<Int?>> = mutableListOf()
             repeat(3) { rowIndex ->
@@ -85,21 +85,6 @@ data class Sudoku(
                 && gridRows.all { it.filterNotNull().isSet() }
                 && gridColumns.all { it.filterNotNull().isSet() }
                 && gridSquares.all { it.filterNotNull().isSet() }
-    }
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-
-        other as Sudoku
-
-        if (!grid.contentEquals(other.grid)) return false
-
-        return true
-    }
-
-    override fun hashCode(): Int {
-        return grid.contentHashCode()
     }
 
     private fun <T> List<T>.isSet(): Boolean {
