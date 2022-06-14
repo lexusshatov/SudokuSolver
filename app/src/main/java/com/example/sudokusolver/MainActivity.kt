@@ -5,10 +5,8 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.GridCells
-import androidx.compose.foundation.lazy.LazyVerticalGrid
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Button
 import androidx.compose.material.Slider
 import androidx.compose.material.Surface
@@ -78,10 +76,34 @@ class MainActivity : ComponentActivity() {
     }
 
     @Composable
+    private fun Square(cells: List<Int?>) {
+        if (cells.size != 9) throw IllegalStateException("Wrong square size")
+        Surface(
+            modifier = Modifier.padding(1.dp),
+            border = BorderStroke(1.dp, Color.Black)
+        ) {
+            Column {
+                repeat(3) { rowIndex ->
+                    Row {
+                        repeat(3) { cellIndex ->
+                            Cell(cells[rowIndex * 3 + cellIndex])
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @Composable
     private fun Sudoku(sudoku: Sudoku) {
-        LazyVerticalGrid(cells = GridCells.Fixed(9)) {
-            items(sudoku.grid) { number ->
-                Cell(number = number)
+        val squares = (0..8).map { sudoku.getSquareByIndex(it) }
+        Column {
+            repeat(3) { rowIndex ->
+                Row {
+                    repeat(3) { cellIndex ->
+                        Square(squares[rowIndex * 3 + cellIndex])
+                    }
+                }
             }
         }
     }

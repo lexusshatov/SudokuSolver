@@ -34,6 +34,7 @@ interface SolveChain : SolveSudoku {
                     }
                 }
             } while (isElementAdded)
+            println(candidates)
             return resultSudoku
         }
     }
