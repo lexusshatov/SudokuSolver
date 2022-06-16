@@ -1,5 +1,7 @@
 package com.example.sudokusolver.sudoku
 
+import com.example.sudokusolver.sudoku.solution.columns
+import com.example.sudokusolver.sudoku.solution.rows
 import kotlin.random.Random
 import kotlin.random.nextInt
 
@@ -8,10 +10,10 @@ object SudokuGenerator {
     private var sudoku: Sudoku = Sudoku()
 
     private fun shuffleRows(first: Int, second: Int) {
-        if (!sudoku.isInSameGroup(first, second)) {
+        if (!sudoku.inSameGroup(first, second)) {
             throw IllegalArgumentException("Can't shuffle rows in different groups")
         }
-        val rows = sudoku.gridRows
+        val rows = sudoku.grid.rows
         val firstRow = rows[first]
         val secondRow = rows[second]
         val mutableGrid = sudoku.grid.toMutableList()
@@ -25,10 +27,10 @@ object SudokuGenerator {
     }
 
     private fun shuffleColumns(first: Int, second: Int) {
-        if (!sudoku.isInSameGroup(first, second)) {
+        if (!sudoku.inSameGroup(first, second)) {
             throw IllegalArgumentException("Can't shuffle columns in different groups")
         }
-        val columns = sudoku.gridColumns
+        val columns = sudoku.grid.columns
         val firstColumn = columns[first]
         val secondColumn = columns[second]
         val mutableGrid = sudoku.grid.toMutableList()

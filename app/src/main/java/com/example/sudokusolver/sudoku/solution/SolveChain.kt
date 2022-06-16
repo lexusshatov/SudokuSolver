@@ -12,7 +12,10 @@ interface SolveChain : SolveSudoku {
             ReduceFilledCells(),
             ReduceFromRows(),
             ReduceFromColumns(),
-            ReduceFromSquares()
+            ReduceFromSquares(),
+            ReduceSingleRow(),
+            ReduceSingleColumn(),
+            ReduceSingleSquare()
         )
 
         override fun solve(sudoku: Sudoku): Sudoku {

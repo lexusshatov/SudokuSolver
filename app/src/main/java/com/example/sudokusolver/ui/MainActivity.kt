@@ -1,23 +1,18 @@
-package com.example.sudokusolver
+package com.example.sudokusolver.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.Slider
-import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.sudokusolver.sudoku.Difficult
-import com.example.sudokusolver.sudoku.Sudoku
 import com.example.sudokusolver.sudoku.SudokuGenerator
 import com.example.sudokusolver.sudoku.solution.SolveChain
 import com.example.sudokusolver.ui.theme.SudokuSolverTheme
@@ -57,51 +52,6 @@ class MainActivity : ComponentActivity() {
                                 Text(text = "Calculate")
                             }
                         }
-                    }
-                }
-            }
-        }
-    }
-
-    @Composable
-    private fun Cell(number: Int?) {
-        Surface(
-            border = BorderStroke(1.dp, Color.LightGray),
-            modifier = Modifier.requiredSize(40.dp)
-        ) {
-            Box(contentAlignment = Alignment.Center) {
-                Text(text = number?.toString() ?: "")
-            }
-        }
-    }
-
-    @Composable
-    private fun Square(cells: List<Int?>) {
-        if (cells.size != 9) throw IllegalStateException("Wrong square size")
-        Surface(
-            modifier = Modifier.padding(1.dp),
-            border = BorderStroke(1.dp, Color.Black)
-        ) {
-            Column {
-                repeat(3) { rowIndex ->
-                    Row {
-                        repeat(3) { cellIndex ->
-                            Cell(cells[rowIndex * 3 + cellIndex])
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    @Composable
-    private fun Sudoku(sudoku: Sudoku) {
-        val squares = (0..8).map { sudoku.getSquareByIndex(it) }
-        Column {
-            repeat(3) { rowIndex ->
-                Row {
-                    repeat(3) { cellIndex ->
-                        Square(squares[rowIndex * 3 + cellIndex])
                     }
                 }
             }

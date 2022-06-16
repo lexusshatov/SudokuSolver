@@ -6,7 +6,7 @@ class ReduceFromSquares : ReduceCandidates {
     override fun reduceCandidates(sudoku: Sudoku, candidates: List<Set<Int>>): List<Set<Int>> {
         val mutableCandidates = candidates.map { it.toMutableSet() }
         sudoku.grid.forEachIndexed { index, _ ->
-            mutableCandidates[index].removeIf { sudoku.getSquareByIndex(index).contains(it) }
+            mutableCandidates[index].removeIf { sudoku.grid.getSquareByIndex(index).contains(it) }
         }
         return mutableCandidates
     }
